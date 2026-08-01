@@ -51,3 +51,49 @@ Proyecto academico de la asignatura Programacion III.
 | `config/db.php` | Conexion PDO a la base de datos |
 | `assets/style.css` | Hoja de estilos de la aplicacion |
 | `database.sql` | Script de creacion de la base de datos |
+
+## Estrategia de ramas
+
+El proyecto se desarrollo siguiendo Git Flow con tres ramas permanentes y seis ramas
+temporales de trabajo. Ninguna rama permanente recibe commits directos: todo cambio
+entra mediante Pull Request.
+
+### Ramas permanentes
+
+- **main**: version estable y publicada de la aplicacion.
+- **qa**: entorno de pruebas donde se valida cada funcionalidad antes de publicarla.
+- **dev**: rama de integracion donde se unen todas las funcionalidades en desarrollo.
+
+### Ramas de trabajo
+
+| Rama | Origen | Aporte |
+|---|---|---|
+| `feature/setup-database` | `dev` | Script `database.sql` y conexion PDO en `config/db.php` |
+| `feature/list-students` | `dev` | Listado en `index.php` y estilos en `assets/style.css` |
+| `feature/create-student` | `dev` | Formulario, validaciones e INSERT en `crear.php` |
+| `feature/update-student` | `dev` | Formulario precargado y UPDATE en `editar.php` |
+| `feature/delete-student` | `dev` | Confirmacion y DELETE en `eliminar.php` |
+| `hotfix/fix-date-format` | `main` | Correccion del formato de fecha a `d/m/Y` y documentacion |
+
+### Flujo de trabajo
+
+```
+feature/*  ->  dev  ->  qa  ->  main
+```
+
+1. Cada rama `feature/*` se crea a partir de `dev` actualizado y agrupa sus cambios
+   en varios commits siguiendo Conventional Commits.
+2. Al terminar la funcionalidad se abre un Pull Request de la rama hacia `dev`, donde
+   se integra con el resto del trabajo del equipo.
+3. Desde `dev` se abre un Pull Request hacia `qa` para probar la funcionalidad
+   integrada en el entorno de pruebas.
+4. Una vez aprobada en `qa`, se abre un Pull Request hacia `main` para publicar la
+   version estable.
+
+La rama `hotfix/fix-date-format` sigue la regla de Git Flow para correcciones
+urgentes: se crea desde `main` porque corrige un error ya publicado, y luego se
+reintegra por Pull Request recorriendo `dev`, `qa` y `main` para que las tres ramas
+permanentes queden sincronizadas.
+
+Todos los Pull Requests se integraron con merge commit (`--merge`), sin squash ni
+rebase, y las ramas se conservan en el repositorio como evidencia del proceso.
