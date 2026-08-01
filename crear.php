@@ -13,6 +13,39 @@ $datos = [
     'fecha_ingreso' => '',
 ];
 $errores = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach ($datos as $campo => $valor) {
+        $datos[$campo] = trim((string) ($_POST[$campo] ?? ''));
+    }
+
+    if (empty($errores)) {
+        try {
+            $conexion = obtenerConexion();
+            $sentencia = $conexion->prepare(
+                'INSERT INTO estudiantes (matricula, nombre, apellido, correo, carrera, fecha_ingreso)
+                 VALUES (:matricula, :nombre, :apellido, :correo, :carrera, :fecha_ingreso)'
+            );
+            $sentencia->execute([
+                ':matricula'     => $datos['matricula'],
+                ':nombre'        => $datos['nombre'],
+                ':apellido'      => $datos['apellido'],
+                ':correo'        => $datos['correo'],
+                ':carrera'       => $datos['carrera'],
+                ':fecha_ingreso' => $datos['fecha_ingreso'],
+            ]);
+
+            header('Location: index.php');
+            exit;
+        } catch (PDOException $e) {
+            if ((int) $e->getCode() === 23000) {
+                $errores[] = 'La matricula ingresada ya esta registrada.';
+            } else {
+                $errores[] = 'No se pudo registrar el estudiante: ' . $e->getMessage();
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
