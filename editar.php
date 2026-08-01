@@ -20,24 +20,84 @@ if (!$id) {
     exit;
 }
 
-try {
-    $conexion = obtenerConexion();
-    $sentencia = $conexion->prepare(
-        'SELECT matricula, nombre, apellido, correo, carrera, fecha_ingreso
-         FROM estudiantes
-         WHERE id = :id'
-    );
-    $sentencia->execute([':id' => $id]);
-    $estudiante = $sentencia->fetch();
-
-    if (!$estudiante) {
-        header('Location: index.php');
-        exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach ($datos as $campo => $valor) {
+        $datos[$campo] = trim((string) ($_POST[$campo] ?? ''));
     }
 
-    $datos = $estudiante;
-} catch (PDOException $e) {
-    $errores[] = 'No se pudo cargar el estudiante: ' . $e->getMessage();
+    if ($datos['matricula'] === '') {
+        $errores[] = 'La matricula es obligatoria.';
+    }
+    if ($datos['nombre'] === '') {
+        $errores[] = 'El nombre es obligatorio.';
+    }
+    if ($datos['apellido'] === '') {
+        $errores[] = 'El apellido es obligatorio.';
+    }
+    if (!filter_var($datos['correo'], FILTER_VALIDATE_EMAIL)) {
+        $errores[] = 'El correo no tiene un formato valido.';
+    }
+    if ($datos['carrera'] === '') {
+        $errores[] = 'La carrera es obligatoria.';
+    }
+    $fecha = DateTime::createFromFormat('Y-m-d', $datos['fecha_ingreso']);
+    if (!$fecha || $fecha->format('Y-m-d') !== $datos['fecha_ingreso']) {
+        $errores[] = 'La fecha de ingreso no es valida.';
+    }
+
+    if (empty($errores)) {
+        try {
+            $conexion = obtenerConexion();
+            $sentencia = $conexion->prepare(
+                'UPDATE estudiantes
+                 SET matricula = :matricula,
+                     nombre = :nombre,
+                     apellido = :apellido,
+                     correo = :correo,
+                     carrera = :carrera,
+                     fecha_ingreso = :fecha_ingreso
+                 WHERE id = :id'
+            );
+            $sentencia->execute([
+                ':matricula'     => $datos['matricula'],
+                ':nombre'        => $datos['nombre'],
+                ':apellido'      => $datos['apellido'],
+                ':correo'        => $datos['correo'],
+                ':carrera'       => $datos['carrera'],
+                ':fecha_ingreso' => $datos['fecha_ingreso'],
+                ':id'            => $id,
+            ]);
+
+            header('Location: index.php');
+            exit;
+        } catch (PDOException $e) {
+            if ((int) $e->getCode() === 23000) {
+                $errores[] = 'La matricula ingresada ya pertenece a otro estudiante.';
+            } else {
+                $errores[] = 'No se pudo actualizar el estudiante: ' . $e->getMessage();
+            }
+        }
+    }
+} else {
+    try {
+        $conexion = obtenerConexion();
+        $sentencia = $conexion->prepare(
+            'SELECT matricula, nombre, apellido, correo, carrera, fecha_ingreso
+             FROM estudiantes
+             WHERE id = :id'
+        );
+        $sentencia->execute([':id' => $id]);
+        $estudiante = $sentencia->fetch();
+
+        if (!$estudiante) {
+            header('Location: index.php');
+            exit;
+        }
+
+        $datos = $estudiante;
+    } catch (PDOException $e) {
+        $errores[] = 'No se pudo cargar el estudiante: ' . $e->getMessage();
+    }
 }
 ?>
 <!DOCTYPE html>
