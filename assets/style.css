@@ -1,0 +1,126 @@
+:root {
+    --color-fondo: #f4f6f8;
+    --color-texto: #24292f;
+    --color-primario: #1f6feb;
+    --color-borde: #d0d7de;
+    --color-error: #b42318;
+    --color-exito: #1a7f37;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 2rem 1rem;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+.contenedor {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 1.6rem;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.tabla th,
+.tabla td {
+    border: 1px solid var(--color-borde);
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.tabla th {
+    background-color: #eaeef2;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+.boton {
+    display: inline-block;
+    padding: 0.5rem 0.9rem;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--color-primario);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.boton:hover {
+    opacity: 0.9;
+}
+
+.boton-peligro {
+    background-color: var(--color-error);
+}
+
+.boton-secundario {
+    background-color: #57606a;
+}
+
+.alerta {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.alerta-error {
+    background-color: #ffeceb;
+    color: var(--color-error);
+    border: 1px solid #ffc9c4;
+}
+
+.alerta-exito {
+    background-color: #e6f6ea;
+    color: var(--color-exito);
+    border: 1px solid #b7e2c3;
+}
+
+.formulario label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.formulario input {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.acciones {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.sin-datos {
+    text-align: center;
+    color: #57606a;
+    padding: 1.5rem;
+}
