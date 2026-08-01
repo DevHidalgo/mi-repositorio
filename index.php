@@ -69,6 +69,7 @@ try {
                 <td><?= htmlspecialchars($estudiante['fecha_ingreso'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td>
                     <a class="boton" href="editar.php?id=<?= htmlspecialchars((string) $estudiante['id'], ENT_QUOTES, 'UTF-8') ?>">Editar</a>
+                    <a class="boton boton-peligro" href="eliminar.php?id=<?= htmlspecialchars((string) $estudiante['id'], ENT_QUOTES, 'UTF-8') ?>">Eliminar</a>
                 </td>
             </tr>
         <?php endforeach; ?>
