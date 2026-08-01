@@ -13,6 +13,19 @@ if (!$id) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $conexion = obtenerConexion();
+        $sentencia = $conexion->prepare('DELETE FROM estudiantes WHERE id = :id');
+        $sentencia->execute([':id' => $id]);
+
+        header('Location: index.php');
+        exit;
+    } catch (PDOException $e) {
+        $errores[] = 'No se pudo eliminar el estudiante: ' . $e->getMessage();
+    }
+}
+
 try {
     $conexion = obtenerConexion();
     $sentencia = $conexion->prepare(
