@@ -35,6 +35,10 @@ try {
         <p class="alerta alerta-error"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
     <?php endif; ?>
 
+    <div class="acciones">
+        <a class="boton" href="crear.php">Nuevo estudiante</a>
+    </div>
+
     <table class="tabla">
         <thead>
         <tr>
