@@ -19,3 +19,11 @@ CREATE TABLE estudiantes (
     fecha_ingreso DATE NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Registros de ejemplo
+INSERT INTO estudiantes (matricula, nombre, apellido, correo, carrera, fecha_ingreso) VALUES
+('2025-0101', 'Josue',   'Hidalgo',  'josue.hidalgo@itla.edu.do',  'Desarrollo de Software', '2025-01-15'),
+('2025-0102', 'Maria',   'Fernandez','maria.fernandez@itla.edu.do','Redes de la Informacion','2025-01-20'),
+('2025-0103', 'Carlos',  'Peralta',  'carlos.peralta@itla.edu.do', 'Desarrollo de Software', '2025-02-03'),
+('2025-0104', 'Ana',     'Rodriguez','ana.rodriguez@itla.edu.do',  'Multimedia',             '2025-02-10'),
+('2025-0105', 'Luis',    'Martinez', 'luis.martinez@itla.edu.do',  'Manufactura Automatizada','2025-03-01');
