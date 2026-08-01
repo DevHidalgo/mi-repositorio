@@ -4,6 +4,20 @@
  */
 require_once __DIR__ . '/config/db.php';
 
+/**
+ * Convierte una fecha almacenada como Y-m-d al formato d/m/Y usado en la interfaz.
+ */
+function formatearFecha(?string $fecha): string
+{
+    if ($fecha === null || $fecha === '') {
+        return '';
+    }
+
+    $objetoFecha = DateTime::createFromFormat('Y-m-d', $fecha);
+
+    return $objetoFecha ? $objetoFecha->format('d/m/Y') : $fecha;
+}
+
 $estudiantes = [];
 $error = '';
 
@@ -66,7 +80,7 @@ try {
                 <td><?= htmlspecialchars($estudiante['apellido'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td><?= htmlspecialchars($estudiante['correo'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td><?= htmlspecialchars($estudiante['carrera'], ENT_QUOTES, 'UTF-8') ?></td>
-                <td><?= htmlspecialchars($estudiante['fecha_ingreso'], ENT_QUOTES, 'UTF-8') ?></td>
+                <td><?= htmlspecialchars(formatearFecha($estudiante['fecha_ingreso']), ENT_QUOTES, 'UTF-8') ?></td>
                 <td>
                     <a class="boton" href="editar.php?id=<?= htmlspecialchars((string) $estudiante['id'], ENT_QUOTES, 'UTF-8') ?>">Editar</a>
                     <a class="boton boton-peligro" href="eliminar.php?id=<?= htmlspecialchars((string) $estudiante['id'], ENT_QUOTES, 'UTF-8') ?>">Eliminar</a>
