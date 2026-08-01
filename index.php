@@ -49,12 +49,13 @@ try {
             <th>Correo</th>
             <th>Carrera</th>
             <th>Fecha de ingreso</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
         <?php if (empty($estudiantes)): ?>
             <tr>
-                <td class="sin-datos" colspan="7">No hay estudiantes registrados.</td>
+                <td class="sin-datos" colspan="8">No hay estudiantes registrados.</td>
             </tr>
         <?php endif; ?>
         <?php foreach ($estudiantes as $estudiante): ?>
@@ -66,6 +67,9 @@ try {
                 <td><?= htmlspecialchars($estudiante['correo'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td><?= htmlspecialchars($estudiante['carrera'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td><?= htmlspecialchars($estudiante['fecha_ingreso'], ENT_QUOTES, 'UTF-8') ?></td>
+                <td>
+                    <a class="boton" href="editar.php?id=<?= htmlspecialchars((string) $estudiante['id'], ENT_QUOTES, 'UTF-8') ?>">Editar</a>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
