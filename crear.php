@@ -19,6 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $datos[$campo] = trim((string) ($_POST[$campo] ?? ''));
     }
 
+    if ($datos['matricula'] === '') {
+        $errores[] = 'La matricula es obligatoria.';
+    }
+    if ($datos['nombre'] === '') {
+        $errores[] = 'El nombre es obligatorio.';
+    }
+    if ($datos['apellido'] === '') {
+        $errores[] = 'El apellido es obligatorio.';
+    }
+    if (!filter_var($datos['correo'], FILTER_VALIDATE_EMAIL)) {
+        $errores[] = 'El correo no tiene un formato valido.';
+    }
+    if ($datos['carrera'] === '') {
+        $errores[] = 'La carrera es obligatoria.';
+    }
+    $fecha = DateTime::createFromFormat('Y-m-d', $datos['fecha_ingreso']);
+    if (!$fecha || $fecha->format('Y-m-d') !== $datos['fecha_ingreso']) {
+        $errores[] = 'La fecha de ingreso no es valida.';
+    }
+
     if (empty($errores)) {
         try {
             $conexion = obtenerConexion();
