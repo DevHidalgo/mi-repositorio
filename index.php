@@ -48,6 +48,11 @@ try {
         </tr>
         </thead>
         <tbody>
+        <?php if (empty($estudiantes)): ?>
+            <tr>
+                <td class="sin-datos" colspan="7">No hay estudiantes registrados.</td>
+            </tr>
+        <?php endif; ?>
         <?php foreach ($estudiantes as $estudiante): ?>
             <tr>
                 <td><?= htmlspecialchars((string) $estudiante['id'], ENT_QUOTES, 'UTF-8') ?></td>
@@ -61,6 +66,8 @@ try {
         <?php endforeach; ?>
         </tbody>
     </table>
+
+    <p class="sin-datos">Total de estudiantes: <?= count($estudiantes) ?></p>
 </div>
 </body>
 </html>
